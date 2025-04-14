@@ -1,5 +1,5 @@
 #!/bin/bash
-
+export GO111MODULE=auto
 echo "Building for amd64 Linux"
 export GOOS=linux
 go build -trimpath -ldflags="-s -w" -o aesnet256.amd64

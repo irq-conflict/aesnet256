@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AESNET 256 ENCRYPTION</title>
+    <script src="htmx.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="form-container">
+<pre>
+   ___   _________  _______________  ____ ____   _____  ____________  _____  ______________  _  __
+  / _ | / __/ __/ |/ / __/_  __/_  |/ __// __/  / __/ |/ / ___/ _ \ \/ / _ \/_  __/  _/ __ \/ |/ /
+ / __ |/ _/_\ \/    / _/  / / / __//__ \/ _ \  / _//    / /__/ , _/\  / ___/ / / _/ // /_/ /    / 
+/_/ |_/___/___/_/|_/___/ /_/ /____/____/\___/ /___/_/|_/\___/_/|_| /_/_/    /_/ /___/\____/_/|_/  
+</pre>
+           <form id="encryptForm"> 
+            <div class="form-group">
+                <label for="iv">Initialization Vector (IV) <b>*Leave blank to use default*</b></label>
+                <input type="text" id="iv" name="iv" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="key">Key</label>
+                <input type="text" id="key" name="key" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="keySize">Key Size</label>
+                <input type="text" id="keySize" name="keySize" placeholder="e.g. 128, 192, 256" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="text">Text to Encrypt</label>
+                <textarea id="text" name="text" required></textarea>
+            </div>
+            <button id="submitBtn" type="button" hx-post="/api/encrypt" hx-trigger="click" hx-target="#result">E N C R Y P T</button>
+        </form>
+<pre>
+░▒▓███████▓▒░░▒▓████████▓▒░░▒▓███████▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░   ░▒▓████████▓▒░ 
+░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░     
+░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░     
+░▒▓███████▓▒░░▒▓██████▓▒░  ░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░     
+░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░             ░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░     
+░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░             ░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░     
+░▒▓█▓▒░░▒▓█▓▒░▒▓████████▓▒░▒▓███████▓▒░ ░▒▓██████▓▒░░▒▓████████▓▒░▒▓█▓▒░     
+</pre>
+        <div id="result">[CLICK SUBMIT TO GET A RESULT]</div>
+    </div>
+ <script>
+        htmx.defineExtension('json-request', {
+            transformResponse: function(text, xhr, elt) {
+                return text;
+            },
+            
+            onEvent: function(name, evt) {
+                if (name === "htmx:beforeRequest") {
+                    evt.preventDefault();
+                    evt.stopPropagation();
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('POST', '/api/encrypt', true);
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+                    xhr.onload = function() {
+                        const targetElem = document.getElementById('result');
+                        if (xhr.status >= 200 && xhr.status < 400) {
+                            tmp = JSON.parse(xhr.responseText)
+                            targetElem.innerHTML = tmp.Text;
+                        } else {
+                            targetElem.innerHTML = 'Error: ' + xhr.statusText;
+                        }
+                    };
+                    xhr.onerror = function() {
+                        document.getElementById('result').innerHTML = 'Request failed';
+                    };
+                    const jsonData = {
+                        Iv: document.getElementById('iv').value,
+                        Key: document.getElementById('key').value,
+                        KeySize: document.getElementById('keySize').value,
+                        Text: document.getElementById('text').value,
+                    };
+                    xhr.send(JSON.stringify(jsonData));
+                    return true;
+                }
+            }
+        });
+        document.getElementById('submitBtn').setAttribute('hx-ext', 'json-request');
+    </script>
+</body>
+</html>
