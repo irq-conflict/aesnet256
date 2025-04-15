@@ -35,7 +35,7 @@
             margin-bottom: 5px;
             font-weight: bold;
         }
-        input[type="text"], textarea {
+        input[type="text"], textarea, select {
             background-color: grey;
             width: 100%;
             padding: 8px;

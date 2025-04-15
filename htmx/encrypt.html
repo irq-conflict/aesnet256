@@ -18,21 +18,26 @@
            <form id="encryptForm"> 
             <div class="form-group">
                 <label for="iv">Initialization Vector (IV) <b>*Leave blank to use default*</b></label>
-                <input type="text" id="iv" name="iv" required>
+                <input type="text" id="iv" name="iv">
             </div>
             
             <div class="form-group">
-                <label for="key">Key</label>
+                <label for="key">Key <b>*Keys that do not meet the proper length are padded*</b></label>
                 <input type="text" id="key" name="key" required>
             </div>
             
             <div class="form-group">
                 <label for="keySize">Key Size</label>
-                <input type="text" id="keySize" name="keySize" placeholder="e.g. 128, 192, 256" required>
+                <select name="keySize" id="keySize">
+                    <option value="128">128-Bit</option>
+                    <option value="192">192-Bit</option>
+                    <option value="256" selected>256-Bit</option>
+                </select>
+
             </div>
             
             <div class="form-group">
-                <label for="text">Text to Encrypt</label>
+                <label for="text">Text to Encrypt </label>
                 <textarea id="text" name="text" required></textarea>
             </div>
             <button id="submitBtn" type="button" hx-post="/api/encrypt" hx-trigger="click" hx-target="#result">E N C R Y P T</button>
@@ -67,7 +72,7 @@
                             tmp = JSON.parse(xhr.responseText)
                             targetElem.innerHTML = tmp.Text;
                         } else {
-                            targetElem.innerHTML = 'Error: ' + xhr.statusText;
+                            targetElem.innerHTML = 'Error: ' + xhr.statusText + ' ' + xhr.responseText;
                         }
                     };
                     xhr.onerror = function() {

@@ -20,9 +20,9 @@ const Aes_256_length = 32
 // byte[15] ^= 0x58
 const Default_aesnet_iv = "12345678b0z2345n"
 
-var E_blocksize = "Source requires a block size evenly divisible by %d"
-var E_unpad_zero = errors.New("Tried to unpad data of zero length.")
-var E_invalid_pad = errors.New("Invalid padding.")
+var E_blocksize = "Source requires a block size evenly divisible by %d. [Check your cipertext and/or key]"
+var E_unpad_zero = errors.New("Tried to unpad data of zero length. [Check your key or ciphertext, it's invalid or missing]")
+var E_invalid_pad = errors.New("Invalid padding. [Check your key, it's invalid or missing]")
 
 // Aes256, despite it's name, will allow for 128, 192 and 256.
 // This is set by the length of the key, following the documentation:
