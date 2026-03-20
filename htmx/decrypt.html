@@ -37,7 +37,7 @@
             </div>
             
             <div class="form-group">
-                <label for="text">Text to Decrypt</label>
+                <label for="text">Text to Decrypt *\r\n and \n Newlines will be removed*</label>
                 <textarea id="text" name="text" required></textarea>
             </div>
             <button id="submitBtn" type="button" hx-post="/api/decrypt" hx-trigger="click" hx-target="#result">D E C R Y P T</button>
@@ -83,6 +83,7 @@
                         KeySize: document.getElementById('keySize').value,
                         Text: document.getElementById('text').value,
                     };
+					jsonData.Text.replace(/\r\n/g, '\n').replace(/\r/g,'');
                     xhr.send(JSON.stringify(jsonData));
                     return true;
                 }
