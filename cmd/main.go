@@ -7,7 +7,7 @@ import (
 	"log"
 )
 
-const version = "0.3"
+const version = "0.31"
 
 func main() {
 	sizes := map[string]int{

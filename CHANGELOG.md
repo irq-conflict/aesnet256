@@ -1,4 +1,27 @@
 ```
+ARG/Crypto Puzzle Compatibility List:
+            * Hardwarez Bandcamp Cipher
+            * PC Cipher [1/2]
+            * PC Cipher [2/2] (OLD & NEW)
+            * PC Bonus Page Cipher
+            * Interrupt Request Bandcamp/Server Cipher
+            * Interrupt Request Bonus Page Cipher
+            * Floppy Disk Overdrive Bandcamp/Server Cipher
+            * Floppy Disk Overdrive Bonus Page Cipher
+            * Defrag Bandcamp/Server Cipher
+            * Defrag Bonus Page Cipher
+            * Internet Protocol Bonus Page Cipher
+            * Internet Protocol [1/2]
+            * Internet Protocol [2/2]
+
+=================
+    Version 0.31
+        = BUGFIX: Fix uncaught error when IV length isn't equal to block size.
+        = Migrate to Go Modules
+        = Move compatibility list to top of CHANGELOG.md Additional confirmed support should
+          be added as a single line in the CHANGELOG and added to the universal list up top.
+
+=================
     Version 0.3
         = BUGFIX: Added functionality to remove errant line breaks in 
                   Decryption Text Input via Web UI

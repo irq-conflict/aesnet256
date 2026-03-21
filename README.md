@@ -73,14 +73,14 @@ To run the application you provide the following parameters on the command line:
 
 ## Reporting issues:
 
- Open an Issue in the repository. Again, this program is mainly provided as a backup so these puzzles can be solved in the event of an issue with the Aesencryption.net website.
+ Open an Issue in the repository. Again, this program is mainly provided as a backup so these puzzles can be solved in the event of an issue with the Aesencryption.net website. We do not provide assistance or usage guarantees against any existing encrypted data. We have a reasonably small set of tests we run to make sure known good existing material still decrypts as expected. YMMV.
 
 ## Building:
 
-This is designed to be built with GO111MODULE=auto
+This uses go modules now. 
+It requires go 1.21 at minimum to build. 
 
-Clone the repository and then place it in your GOPATH
-Usually this is $HOME/go/src
 
+Clone the repository and then cd to the cmd folder. 
 This should allow the build script contained in the cmd subfolder to be run.
 It will create executable binaries for amd64/linux, arm64/linux and amd64/windows.

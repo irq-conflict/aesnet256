@@ -20,7 +20,8 @@ const Aes_256_length = 32
 // byte[15] ^= 0x58
 const Default_aesnet_iv = "12345678b0z2345n"
 
-var E_blocksize = "Source requires a block size evenly divisible by %d. [Check your cipertext and/or key]"
+var E_blocksize_mod = "Source requires a block size evenly divisible by %d. [Check your cipertext and/or key]"
+var E_blocksize_match = "IV length must equal block size. Blocksize %d, IV Length %d [Check your custom IV]"
 var E_unpad_zero = errors.New("Tried to unpad data of zero length. [Check your key or ciphertext, it's invalid or missing]")
 var E_invalid_pad = errors.New("Invalid padding. [Check your key, it's invalid or missing]")
 
@@ -52,6 +53,11 @@ func (a *Aes256) Encrypt(key []byte) (e error) {
 	if e != nil {
 		return
 	}
+	if aes.BlockSize != len(a.IV) {
+		e = fmt.Errorf(E_blocksize_match, aes.BlockSize, len(a.IV))
+		return
+	}
+
 	a.Dest = make([]byte, len(a.Source))
 	mode := cipher.NewCBCEncrypter(block, a.IV)
 	mode.CryptBlocks(a.Dest, a.Source)
@@ -70,7 +76,11 @@ func (a *Aes256) Decrypt(key []byte) (e error) {
 		return
 	}
 	if len(ct)%aes.BlockSize != 0 {
-		e = fmt.Errorf(E_blocksize, aes.BlockSize)
+		e = fmt.Errorf(E_blocksize_mod, aes.BlockSize)
+		return
+	}
+	if aes.BlockSize != len(a.IV) {
+		e = fmt.Errorf(E_blocksize_match, aes.BlockSize, len(a.IV))
 		return
 	}
 	mode := cipher.NewCBCDecrypter(blk, a.IV)
